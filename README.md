@@ -1,13 +1,13 @@
-# react-easter
+# react-goatse
 
-Easily add Easter eggs to your React app
+Easily add [Goatse](http://goatse.ru/) easter egg to your React app
 
 
-[![Build Status](https://travis-ci.org/devlato/react-easter.svg?branch=master)](https://travis-ci.org/devlato/react-easter)
-[![Coverage Status](https://coveralls.io/repos/github/devlato/react-easter/badge.svg?branch=master)](https://coveralls.io/github/devlato/react-easter?branch=master)
-[![Code Climate](https://codeclimate.com/github/devlato/react-easter/badges/gpa.svg)](https://codeclimate.com/github/devlato/react-easter)
-[![Issue Count](https://codeclimate.com/github/devlato/react-easter/badges/issue_count.svg)](https://codeclimate.com/github/devlato/react-easter)
-[![npm version](https://badge.fury.io/js/react-easter.svg)](https://badge.fury.io/js/react-easter)
+[![Build Status](https://travis-ci.org/devlato/react-goatse.svg?branch=master)](https://travis-ci.org/devlato/react-goatse)
+[![Coverage Status](https://coveralls.io/repos/github/devlato/react-goatse/badge.svg?branch=master)](https://coveralls.io/github/devlato/react-goatse?branch=master)
+[![Code Climate](https://codeclimate.com/github/devlato/react-goatse/badges/gpa.svg)](https://codeclimate.com/github/devlato/react-goatse)
+[![Issue Count](https://codeclimate.com/github/devlato/react-goatse/badges/issue_count.svg)](https://codeclimate.com/github/devlato/react-goatse)
+[![npm version](https://badge.fury.io/js/react-goatse.svg)](https://badge.fury.io/js/react-goatse)
 
 
 ## Installation
@@ -15,71 +15,54 @@ Easily add Easter eggs to your React app
 With npm:
 
 ```sh
-$ npm install --save-dev react-easter
+$ npm install --save-dev react-goatse
 ```
 
 Or with Yarn:
 
 ```sh
-$ yarn add react-easter
+$ yarn add react-goatse
 ```
 
 
 ## Usage
 
-The usage is very simple, there is just a couple of props to pass.
+The usage is very simple, just pass a couple of optional props to Goatse component:
 
 ```jsx
-const EasterEgg = require('react-easter');
+const Goatse = require('react-goatse');
 
 // ...
 
 render() {
   return (
-    <EasterEgg keys={/* Array of keys to type to trigger the easter egg */}
-               simultaneous={/* Add this prop if keys should be pressed all together */}
-               timeout={/* Duration to show your easter egg, is not passed the easter egg is displayed forever */}>
-      {/* Your easter egg JSX goes here */}
-    </EasterEgg>
+    <Goatse
+        keys={/* Array of keys to type to trigger the easter egg */}
+        simultaneous={/* Add this prop if keys should be pressed all together */}
+        timeout={/* Duration to show goatse, displayed forever if prop not passed */} />
   );
 }
 ```
 
-You can add `react-easter` anywhere in your component hierarchy, because it adds a global
+You can add `react-goatse` anywhere in your component hierarchy, because it adds a global
 keyboard events listener and doesn't stops any event bubbling.
 
 For example:
 
 ```jsx
-const EasterEgg = require('react-easter');
+const Goatse = require('react-goatse');
 
 
 export default class YourComponent extends React.Component {
   render() {
-    const konamiCode = [
-      'arrowup',
-      'arrowup',
-      'arrowdown',
-      'arrowdown',
-      'arrowleft',
-      'arrowright',
-      'arrowleft',
-      'arrowright',
-      'b',
-      'a',
-      'enter'
-    ];
+    // When user types 'goatse' somewhere using your React app,
+    // show Goatse easter egg.
+    const shortcutKeys = ['g', 'o', 'a', 't', 's', 'e'];
 
     return (
-      <EasterEgg keys={konamiCode}
-                 timeout={5000}>
-        <div class="overlay">
-          <iframe class="sexy-nude-geek-girls-playing-mario"
-                  src="https://www.youtube.com/embed/DLzxrzFCyOs?autoplay=1"
-                  frameborder="0"
-                  allowfullscreen />
-        </div>
-      </EasterEgg>
+      <Goatse
+          keys={shortcutKeys}
+          timeout={10000} />
     );
   }
 }
@@ -90,7 +73,7 @@ export default class YourComponent extends React.Component {
 
 * `keys` – Just array of string representing each button to be pressed;
 * `simultaneous` – Set this prop if user should press buttons all together;
-* `onKeysCoincide` – Callback function to be called when user pressed the target buttons.
+* `timeout` – Amount of time in milliseconds while goatse should be displayed.
 
 
 ## Supported keys
@@ -106,7 +89,7 @@ because "Shift" and "1" pressed together produce "!".
 
 ## Dependencies
 
-Project uses [react-shortcut](https://www.npmjs.com/package/react-shortcut) to handle keyboard shortcuts.
+Project uses [react-easter](https://www.npmjs.com/package/react-easter) to easily add an easter egg.
 
 
 ## Test coverage
@@ -116,25 +99,27 @@ Library has ~100% test coverage:
 ```sh
 $ npm run test:coverage
 
-> react-easter@1.0.0 test:coverage ~/projects/react-easter
+> react-goatse@1.0.0 test:coverage ~/projects/react-goatse
 > NODE_ENV=test jest --coverage --no-cache --config .jestrc
 
  PASS  test/Component.js
-  <EasterEgg />
-    ✓ Should render (16ms)
-    ✓ Should handle keys sequently without timeout (1032ms)
-    ✓ Should handle keys sequently with timeout (1011ms)
+  <Goatse />
+    ✓ Should render (9ms)
+    ✓ Should render goatse with timeout (214ms)
+    ✓ Should render goatse without timeout (206ms)
+    ✓ Should render goatse with timeout simultaneously (206ms)
+    ✓ Should render goatse without timeout simultaneously (203ms)
 
 --------------|----------|----------|----------|----------|----------------|
 File          |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
 --------------|----------|----------|----------|----------|----------------|
-All files     |      100 |    77.78 |      100 |      100 |                |
- Component.js |      100 |    77.78 |      100 |      100 |                |
+All files     |      100 |       50 |      100 |      100 |                |
+ Component.js |      100 |       50 |      100 |      100 |                |
 --------------|----------|----------|----------|----------|----------------|
 Test Suites: 1 passed, 1 total
-Tests:       3 passed, 3 total
+Tests:       5 passed, 5 total
 Snapshots:   0 total
-Time:        3.831s
+Time:        2.321s
 Ran all test suites.
 ```
 
@@ -181,4 +166,4 @@ Library is shipped "as is" under MIT License.
 Feel free to contribute but don't forget to test everything properly.
 
 
-[![NPM](https://nodei.co/npm/react-easter.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/react-easter/)
+[![NPM](https://nodei.co/npm/react-goatse.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/react-goatse/)

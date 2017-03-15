@@ -5,7 +5,7 @@ var Promise = require('bluebird');
 var Component = require('../src/Component');
 
 
-var mount = enzyme.mount;
+var shallow = enzyme.shallow;
 
 
 function Page(wrapper) {
@@ -13,25 +13,21 @@ function Page(wrapper) {
     return wrapper;
   };
 
-  this.child = function() {
-    return wrapper.find('.test-overlay');
+  this.overlay = function() {
+    return wrapper.find('.goatse');
+  };
+
+  this.image = function() {
+    return wrapper.find('.goatse__content');
   };
 };
 
 
-function createChild() {
-  return React.createElement('div', {
-    className: 'test-overlay'
-  }, null);
-}
-
-
-function createComponent(props, children) {
+function createComponent(props) {
   var componentProps = props || {};
-  var componentChildren = children || null;
 
-  var component = React.createElement(Component, componentProps, componentChildren);
-  var wrapper = mount(component);
+  var component = React.createElement(Component, componentProps);
+  var wrapper = shallow(component);
   var page = new Page(wrapper);
 
   return {
@@ -41,91 +37,130 @@ function createComponent(props, children) {
 }
 
 
-describe('<EasterEgg />', function() {
-  beforeEach(function() {
-    // jest.spyOn(Component.prototype, 'setState');
-    jest.spyOn(Component.prototype, 'componentDidMount');
-    // jest.spyOn(Component.prototype, 'componentWillUnmount');
-  });
-
-
-  afterEach(function() {
-    // Component.prototype.setState.mockReset();
-    // Component.prototype.setState.mockRestore();
-
-    Component.prototype.componentDidMount.mockReset();
-    Component.prototype.componentDidMount.mockRestore();
-
-    // Component.prototype.componentWillUnmount.mockReset();
-    // Component.prototype.componentWillUnmount.mockRestore();
-  });
-
-
+describe('<Goatse />', function() {
   it('Should render', function() {
-    createComponent();
-
-    expect(Component.prototype.componentDidMount).toHaveBeenCalledTimes(1);
-  });
-
-
-  it('Should handle keys sequently without timeout', function() {
-    var child = createChild();
-    var created = createComponent({
-      keys: ['t', 'e', 's', 't']
-    }, child);
+    var created = createComponent();
 
     var wrapper = created.wrapper;
     var page = created.page;
 
-    return new Promise(function(resolveAll) {
-      return new Promise(function(resolve) {
-        expect(page.wrapper().contains(child)).toEqual(false);
-
-        document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
-        document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'e'}));
-        document.dispatchEvent(new KeyboardEvent('keydown', {'key': 's'}));
-        document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
-
-        setTimeout(function() {
-          resolve();
-        }, 500);
-      }).then(function() {
-        expect(page.wrapper().contains(child)).toEqual(true);
-        setTimeout(function() {
-          resolveAll();
-        }, 500);
-      });
-    }).then(function() {
-      expect(page.wrapper().contains(child)).toEqual(true);
-    });
+    expect(page.wrapper().length).toEqual(1);
   });
 
 
-  it('Should handle keys sequently with timeout', function() {
-    var child = createChild();
+  it('Should render goatse with timeout', function() {
     var created = createComponent({
       keys: ['t', 'e', 's', 't'],
       timeout: 300
-    }, child);
+    });
 
     var wrapper = created.wrapper;
     var page = created.page;
 
     return new Promise(function(resolve) {
-      expect(page.wrapper().contains(child)).toEqual(false);
-
       document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
       document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'e'}));
       document.dispatchEvent(new KeyboardEvent('keydown', {'key': 's'}));
       document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
 
-      expect(page.wrapper().contains(child)).toEqual(true);
+      setTimeout(function() {
+        expect(page.overlay().length).toEqual(1);
+        expect(page.image().length).toEqual(1);
+        resolve();
+      }, 200);
+    }).then(function() {
+      setTimeout(function() {
+        expect(page.overlay().length).toEqual(0);
+        expect(page.image().length).toEqual(0);
+      }, 400);
+    });
+  });
+
+
+  it('Should render goatse without timeout', function() {
+    var created = createComponent({
+      keys: ['t', 'e', 's', 't']
+    });
+
+    var wrapper = created.wrapper;
+    var page = created.page;
+
+    return new Promise(function(resolve) {
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'e'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 's'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
 
       setTimeout(function() {
+        expect(page.overlay().length).toEqual(1);
+        expect(page.image().length).toEqual(1);
         resolve();
-      }, 1000);
+      }, 200);
     }).then(function() {
-      expect(page.wrapper().contains(child)).toEqual(false);
+      setTimeout(function() {
+        expect(page.overlay().length).toEqual(1);
+        expect(page.image().length).toEqual(1);
+      }, 400);
+    });
+  });
+
+
+  it('Should render goatse with timeout simultaneously', function() {
+    var created = createComponent({
+      keys: ['t', 'e', 's', 't'],
+      simultaneous: true,
+      timeout: 300
+    });
+
+    var wrapper = created.wrapper;
+    var page = created.page;
+
+    return new Promise(function(resolve) {
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'e'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 's'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
+
+      setTimeout(function() {
+        expect(page.overlay().length).toEqual(1);
+        expect(page.image().length).toEqual(1);
+        resolve();
+      }, 200);
+    }).then(function() {
+      setTimeout(function() {
+        expect(page.overlay().length).toEqual(0);
+        expect(page.image().length).toEqual(0);
+      }, 400);
+    });
+  });
+
+
+  it('Should render goatse without timeout simultaneously', function() {
+    var created = createComponent({
+      keys: ['t', 'e', 's', 't'],
+      simultaneous: true,
+      timeout: 300
+    });
+
+    var wrapper = created.wrapper;
+    var page = created.page;
+
+    return new Promise(function(resolve) {
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 's'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'e'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 't'}));
+
+      setTimeout(function() {
+        expect(page.overlay().length).toEqual(1);
+        expect(page.image().length).toEqual(1);
+        resolve();
+      }, 200);
+    }).then(function() {
+      setTimeout(function() {
+        expect(page.overlay().length).toEqual(1);
+        expect(page.image().length).toEqual(1);
+      }, 400);
     });
   });
 });

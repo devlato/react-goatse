@@ -1,7 +1,7 @@
 {
-  "name": "react-easter",
-  "version": "1.0.5",
-  "description": "Easily add easter eggs to your React app",
+  "name": "react-goatse",
+  "version": "1.0.0",
+  "description": "Easily add Goatse easter egg to your React app",
   "main": "src/Component.js",
   "scripts": {
     "test": "NODE_ENV=test jest -u --no-cache --config .jestrc",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devlato/react-easter.git"
+    "url": "git+https://github.com/devlato/react-goatse.git"
   },
   "keywords": [
     "react",
@@ -28,9 +28,9 @@
   "author": "devlato <npm@devlato.com> (http://devlato.com/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/devlato/react-easter/issues"
+    "url": "https://github.com/devlato/react-goatse/issues"
   },
-  "homepage": "https://github.com/devlato/react-easter#readme",
+  "homepage": "https://github.com/devlato/react-goatse#readme",
   "files": [
     "package.json",
     "README.md",
@@ -48,15 +48,12 @@
     "eslint-plugin-import": "2.2.0",
     "husky": "0.13.1",
     "jest": "^19.0.2",
-    "react-addons-test-utils": "^15.4.2",
-    "sinon": "^1.17.7"
+    "react-addons-test-utils": "^15.4.2"
   },
   "dependencies": {
-    "bluebird": "3.4.7",
-    "lodash": "^4.17.4",
     "react": "15.4.2",
     "react-dom": "^15.4.2",
-    "react-shortcut": "1.0.5"
+    "react-easter": "1.0.6"
   },
   "engines": {
     "node": ">= 4",
