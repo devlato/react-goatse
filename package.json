@@ -1,6 +1,6 @@
 {
   "name": "react-goatse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Easily add Goatse easter egg to your React app",
   "main": "src/Component.js",
   "scripts": {
@@ -52,6 +52,7 @@
     "react-addons-test-utils": "^15.4.2"
   },
   "dependencies": {
+    "bluebird": "3.4.7",
     "react": "15.4.2",
     "react-dom": "^15.4.2",
     "react-easter": "1.0.6"
